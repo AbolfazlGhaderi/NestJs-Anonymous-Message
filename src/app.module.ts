@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -14,7 +16,9 @@ import { ConfigModule } from '@nestjs/config';
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
     
-  })],
+  }),
+     UsersModule,
+     MessagesModule],
   controllers: [AppController],
   providers: [AppService],
 })
