@@ -6,7 +6,4 @@ export class LoginDTO {
   @IsEmail()
   email: string;
 
-  @IsOptional()
-  @IsString()
-  displayName?: string;
 }
