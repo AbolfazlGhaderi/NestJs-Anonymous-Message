@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDTO } from './dto/login.dto';
@@ -15,8 +17,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Body() userDto : LoginDTO){
-    this.authService.login(userDto)
+  @HttpCode(HttpStatus.OK)
+  async login(@Body() userDto : LoginDTO){
+   return await this.authService.login(userDto)
   }
 
 }

@@ -1,6 +1,5 @@
 import { Injectable, Logger, NestMiddleware, UseGuards } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
-import { JwtGuard } from 'src/guards/jwt.guard.guard';
 
 @Injectable()
 

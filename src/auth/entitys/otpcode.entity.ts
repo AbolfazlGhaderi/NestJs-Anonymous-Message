@@ -1,7 +1,7 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity("otpcode")
-export class OtpLogin {
+export class OtpCodeEntity {
     @PrimaryGeneratedColumn()
     id:number
 
@@ -13,6 +13,9 @@ export class OtpLogin {
   
     @CreateDateColumn()
     create_at:Date
+
+    @UpdateDateColumn()
+    update_at:Date
 
     @Column({default:false})
     is_used:boolean

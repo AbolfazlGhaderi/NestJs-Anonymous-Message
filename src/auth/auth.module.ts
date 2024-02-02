@@ -6,13 +6,17 @@ import { JwtStrategy } from 'src/strategies/jwt.strategy';
 import { UsersService } from 'src/users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { OtpCodeEntity } from './entitys/otpcode.entity';
 
 @Module({
-  imports:[JwtModule.register({
-    secret: process.env.JWT_SECRET,
-    signOptions: { expiresIn: '2d' },
-  }),TypeOrmModule.forFeature([UserEntity])],
+  imports: [
+    JwtModule.register({
+      secret: 'Myst3r!ousC0d3_@S3cr3tP@ssw0rd',
+      signOptions: { expiresIn: '2d' },
+    }),
+    TypeOrmModule.forFeature([UserEntity, OtpCodeEntity]),
+  ],
   controllers: [AuthController],
-  providers: [AuthService,JwtStrategy,UsersService],
+  providers: [AuthService, JwtStrategy, UsersService],
 })
 export class AuthModule {}
