@@ -1,5 +1,5 @@
 import { UserEntity } from "src/users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('messages')
 export class MessageEntity {
@@ -8,6 +8,9 @@ export class MessageEntity {
 
     @Column({type:"text",nullable:false})
     text:string
+
+    @CreateDateColumn()
+    postage_date:Date
 
     @ManyToOne(() => UserEntity ,(user) => user.messages,{onDelete:'CASCADE',nullable:false})
     user:UserEntity

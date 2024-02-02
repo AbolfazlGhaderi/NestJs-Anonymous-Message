@@ -14,6 +14,10 @@ export class UsersService {
     return this.userRepository.find();
   }
 
+  async findUserByEmail(email: string) {
+    return await this.userRepository.findOne({ where: { email: email } });
+  }
+
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }
