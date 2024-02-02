@@ -6,12 +6,9 @@ export class MessageEntity {
     @PrimaryGeneratedColumn()
     id:number
 
-    @Column({})
-    name:string
-
-    @Column({type:"text"})
+    @Column({type:"text",nullable:false})
     text:string
 
-    @ManyToOne(() => UserEntity ,(user) => user.messages,{onDelete:'CASCADE'})
+    @ManyToOne(() => UserEntity ,(user) => user.messages,{onDelete:'CASCADE',nullable:false})
     user:UserEntity
 }
