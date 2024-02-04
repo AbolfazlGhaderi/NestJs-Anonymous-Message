@@ -11,7 +11,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto } from './dto/create.user.dto';
 import { Request } from 'express';
 import { JwtAuthGuard } from '../guards/jwt.guard.guard';
 
