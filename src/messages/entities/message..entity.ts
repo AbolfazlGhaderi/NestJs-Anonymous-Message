@@ -13,5 +13,6 @@ export class MessageEntity {
     postage_date:Date
 
     @ManyToOne(() => UserEntity ,(user) => user.messages,{onDelete:'CASCADE',nullable:false})
+    @JoinColumn({name:"userid"})
     user:UserEntity
 }

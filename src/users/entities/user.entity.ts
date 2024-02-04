@@ -22,5 +22,5 @@ export class UserEntity {
   update_at:Date
 
   @OneToMany(() => MessageEntity, (message) => message.user)
-  messages : MessageEntity
+  messages : MessageEntity[]
 }
