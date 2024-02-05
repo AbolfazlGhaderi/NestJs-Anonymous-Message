@@ -13,23 +13,20 @@ export class MessagesService {
     private readonly usersService: UsersService,
   ) {}
 
-  async findAllMessage(userSlug: string) {
+  async findAllMessage(userEmail: string) {
+    
     //---------------- User Search in the DB ------------------------------
 
-    const user = await this.usersService.findUserBySlug(userSlug);
+    const user = await this.usersService.findUserByEmail(userEmail);
 
     if (!user) throw new HttpException('User not Find', 404);
 
     // ------------------ get messages in the DB --------------------------
 
-    // const messages = await this.messageRepository.findBy({user:user});
-    // const messages = await this.messageRepository
-    // .createQueryBuilder("message")
-    // .getMany()
-    const userid = user.id;
     const messages = await this.messageRepository.find({
-      relations: { user: true },
-      where: { user: { id :user.id} },
+
+      where: { user: { id: user.id } },
+
     });
 
     if (!messages[0]) throw new HttpException('no message find', 404);

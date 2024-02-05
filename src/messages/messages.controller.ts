@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { JwtAuthGuard } from 'src/guards/jwt.guard.guard';
-import { FindAllMessageDTO } from './dto/message.dto';
+import { Request } from 'express';
 
 
 @Controller('messages')
@@ -10,8 +10,10 @@ export class MessagesController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  async getAllMessage(@Body() userSlug:FindAllMessageDTO){
-    return await this.messagesService.findAllMessage(userSlug.slug)
+  async getAllMessage(@Req() request:Request){
+
+
+    return await this.messagesService.findAllMessage(request.user['email'])
   }
 
 }

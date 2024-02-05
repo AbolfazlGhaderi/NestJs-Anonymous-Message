@@ -10,18 +10,20 @@ export class UsersService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
+
+  //--------------------- find All ------------------------------
+
   findAll() {
     return this.userRepository.find();
   }
+
+  //--------------------- Find User By Email --------------------
 
   async findUserByEmail(email: string) {
     return await this.userRepository.findOne({ where: { email: email } });
   }
 
-  async findUserBySlug(slug: string) {
-    return await this.userRepository.findOne({ where: { slug: slug } });
-  }
-
+  //--------------------- Create  -------------------------------
   async create(userData: CreateUserDto) {
     const user = await this.userRepository.findOne({
       where: {
