@@ -65,4 +65,11 @@ export class UsersController {
     return await this.usersService.update(userData,id);
     
   }
+
+  @Post('/check/slug')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  async checkSlug(@Body('slug') slug : string){
+    return await this.usersService.checkSlug(slug)
+  }
 }

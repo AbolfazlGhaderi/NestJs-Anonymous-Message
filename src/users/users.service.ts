@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpVersionNotSupportedException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create.user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
@@ -24,6 +24,22 @@ export class UsersService {
     return await this.userRepository.findOne({ where: { email: email } });
   }
 
+  //--------------------- Check slug ----------------------------
+
+  async checkSlug(slug: string) {
+
+    const user = await this.userRepository.findOne({
+      where: {
+        slug: slug,
+      },
+    });
+
+    if(user) throw new HttpException("Not available",400)
+
+    return {message : 'available'}
+
+  }
+
   //--------------------- Create  -------------------------------
 
   async create(userData: CreateUserDto) {
@@ -45,7 +61,6 @@ export class UsersService {
   //--------------------- Update  -------------------------------
 
   async update(updateData: UserUpdateDTO, id: number) {
-    
     // --------------------- user Search in the db --------------------------
 
     const user = await this.userRepository.findOne({
@@ -57,26 +72,19 @@ export class UsersService {
     // --------------------- Check the changes ------------------------------
 
     if (
-      user.slug !== updateData.slug || user.displayName !== updateData.displayName
+      user.slug !== updateData.slug ||
+      user.displayName !== updateData.displayName
     ) {
-
       try {
-
         user.slug = updateData.slug;
         user.displayName = updateData.displayName;
 
-        return await this.userRepository.save(user)
-
-        
+        return await this.userRepository.save(user);
       } catch (err) {
-
         throw new HttpException(err.message, 500);
-
       }
-    }
-    else{
-
-      return user
+    } else {
+      return user;
     }
   }
 }
