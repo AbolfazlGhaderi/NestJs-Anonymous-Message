@@ -18,6 +18,7 @@ import { Request } from 'express';
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
+  //--------------------- Receive all messages --------------------
   @Get()
   @UseGuards(JwtAuthGuard)
   async getAllMessage(@Req() request: Request) {
@@ -25,12 +26,22 @@ export class MessagesController {
   }
 
   //---------------------- Delete a message ----------------------
-
+  
   @Delete('/:id')
   @UseGuards(JwtAuthGuard)
   async delete(@Param('id', ParseIntPipe) id: number) {
     
     return this.messagesService.deleteOne(id)
+    
+  }
+  
+  //---------------------- Delete messages ----------------------
+
+  @Delete('')
+  @UseGuards(JwtAuthGuard)
+  async deleteAll(@Req() request:Request){
+    console.log(request.user['email']);
+    return await this.messagesService.deleteAll(request.user['email'])
 
   }
 }

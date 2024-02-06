@@ -26,18 +26,32 @@ export class MessagesService {
       where: { user: { id: user.id } },
     });
 
-    if (!messages[0]) throw new HttpException('no message find', 404);
+    if (!messages[0]) throw new HttpException('Message not found', 404);
 
     return messages;
   }
 
   //---------------------- Delete a message ----------------------
   async deleteOne(id: number) {
-    const delt = await this.messageRepository.delete({ id: id });
-    if (delt.affected === 0) throw new HttpException('Message not found', 404);
+    const deleteR = await this.messageRepository.delete({ id: id });
+    if (deleteR.affected === 0)
+      throw new HttpException('Message not found', 404);
 
     return { message: 'The message was successfully deleted' };
   }
 
+  //---------------------- Delete messages ----------------------
 
+  async deleteAll(email: string) {
+    const user = await this.usersService.findUserByEmail(email);
+    
+    if (!user) throw new HttpException('user not found ', 404);
+
+    const deleteR = await this.messageRepository.delete({ user: user });
+
+    if (deleteR.affected === 0)
+      throw new HttpException('Message not found', 404);
+
+    return { message: 'Messages deleted successfully' };
+  }
 }
