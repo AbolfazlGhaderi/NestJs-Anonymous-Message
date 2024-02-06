@@ -4,6 +4,7 @@ import { MessageEntity } from './entities/message..entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { UsersService } from '../users/users.service';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { CreateMessageDTO } from './dto/create.message.dto';
 
 @Injectable()
 export class MessagesService {
@@ -32,6 +33,7 @@ export class MessagesService {
   }
 
   //---------------------- Delete a message ----------------------
+  
   async deleteOne(id: number) {
     const deleteR = await this.messageRepository.delete({ id: id });
     if (deleteR.affected === 0)
@@ -57,9 +59,30 @@ export class MessagesService {
 
   //----------------------- Check User To Send Message -----------------
 
-  async checkUser(slug:string){
+  async checkUser(slug: string) {
+    const result = await this.usersService.findUserBySlug(slug);
 
-    return await this.usersService.findUserBySlug(slug)
-    
+    return {
+      displayName: result.displayName,
+    };
+  }
+
+  //----------------------- Create Message -----------------------------
+
+  async createMessage(data: CreateMessageDTO) {
+
+    const User = await this.usersService.findUserBySlug(data.slug);
+    if(!User?.id) return User
+
+    const result = await this.messageRepository.save({
+      text: data.text,
+      user: { id: User.id },
+    });
+
+    if(!result) throw new HttpException('internal server error',500)
+
+    return {
+      message:"Message saved successfully"
+    }
   }
 }

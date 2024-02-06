@@ -15,6 +15,7 @@ import {
 import { MessagesService } from './messages.service';
 import { JwtAuthGuard } from 'src/guards/jwt.guard.guard';
 import { Request } from 'express';
+import { CreateMessageDTO } from './dto/create.message.dto';
 
 @Controller('messages')
 export class MessagesController {
@@ -54,5 +55,10 @@ export class MessagesController {
   }
   //---------------------- Create a message ----------------------
 
-  async createMessage() {}
+  @Post('/send-message')
+  async createMessage(@Body() messageData : CreateMessageDTO) {
+
+    return await this.messagesService.createMessage(messageData)
+
+  }
 }

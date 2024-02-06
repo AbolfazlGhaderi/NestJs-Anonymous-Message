@@ -31,7 +31,7 @@ export class UsersService {
   //--------------------- Find User By Slug --------------------
 
   async findUserBySlug(slug: string) {
-    
+
     const user = await this.userRepository.findOne({
       where: {
         slug: slug,
@@ -40,10 +40,7 @@ export class UsersService {
 
     if (!user) throw new HttpException('user not found', 404);
 
-    return {
-
-      displayName: user.displayName,
-    };
+    return user
   }
 
   //--------------------- Check slug ----------------------------
