@@ -9,6 +9,8 @@ import {
   UseGuards,
   Req,
   ParseIntPipe,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { JwtAuthGuard } from 'src/guards/jwt.guard.guard';
@@ -19,6 +21,7 @@ export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   //--------------------- Receive all messages --------------------
+
   @Get()
   @UseGuards(JwtAuthGuard)
   async getAllMessage(@Req() request: Request) {
@@ -26,22 +29,30 @@ export class MessagesController {
   }
 
   //---------------------- Delete a message ----------------------
-  
+
   @Delete('/:id')
   @UseGuards(JwtAuthGuard)
   async delete(@Param('id', ParseIntPipe) id: number) {
-    
-    return this.messagesService.deleteOne(id)
-    
+    return this.messagesService.deleteOne(id);
   }
-  
-  //---------------------- Delete messages ----------------------
+
+  //---------------------- Delete messages ------------------------
 
   @Delete('')
   @UseGuards(JwtAuthGuard)
-  async deleteAll(@Req() request:Request){
-    console.log(request.user['email']);
-    return await this.messagesService.deleteAll(request.user['email'])
-
+  async deleteAll(@Req() request: Request) {
+    return await this.messagesService.deleteAll(request.user['email']);
   }
+
+  //----------------------- Check User To Send Message ------------
+
+  @Get('/send-message/:slug')
+  @HttpCode(HttpStatus.OK)
+  async checkUserToSendM(@Param('slug') userSlug: string) {
+
+    return await this.messagesService.checkUser(userSlug);
+  }
+  //---------------------- Create a message ----------------------
+
+  async createMessage() {}
 }

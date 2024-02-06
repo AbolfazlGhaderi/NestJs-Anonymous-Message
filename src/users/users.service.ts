@@ -28,6 +28,24 @@ export class UsersService {
     return await this.userRepository.findOne({ where: { email: email } });
   }
 
+  //--------------------- Find User By Slug --------------------
+
+  async findUserBySlug(slug: string) {
+    
+    const user = await this.userRepository.findOne({
+      where: {
+        slug: slug,
+      },
+    });
+
+    if (!user) throw new HttpException('user not found', 404);
+
+    return {
+
+      displayName: user.displayName,
+    };
+  }
+
   //--------------------- Check slug ----------------------------
 
   async checkSlug(slug: string) {
@@ -81,16 +99,11 @@ export class UsersService {
 
         await this.userRepository.save(user);
         return { message: 'The update was done successfully' };
-
       } catch (err) {
-
         throw new HttpException(err.message, 500);
-
       }
     } else {
-
       return { message: 'ohhh noooo' };
-
     }
   }
 }

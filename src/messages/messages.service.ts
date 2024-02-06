@@ -44,7 +44,7 @@ export class MessagesService {
 
   async deleteAll(email: string) {
     const user = await this.usersService.findUserByEmail(email);
-    
+
     if (!user) throw new HttpException('user not found ', 404);
 
     const deleteR = await this.messageRepository.delete({ user: user });
@@ -53,5 +53,13 @@ export class MessagesService {
       throw new HttpException('Message not found', 404);
 
     return { message: 'Messages deleted successfully' };
+  }
+
+  //----------------------- Check User To Send Message -----------------
+
+  async checkUser(slug:string){
+
+    return await this.usersService.findUserBySlug(slug)
+    
   }
 }
