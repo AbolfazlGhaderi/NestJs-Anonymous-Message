@@ -14,7 +14,6 @@ export class MessagesService {
   ) {}
 
   async findAllMessage(userEmail: string) {
-    
     //---------------- User Search in the DB ------------------------------
 
     const user = await this.usersService.findUserByEmail(userEmail);
@@ -24,13 +23,21 @@ export class MessagesService {
     // ------------------ get messages in the DB --------------------------
 
     const messages = await this.messageRepository.find({
-
       where: { user: { id: user.id } },
-
     });
 
     if (!messages[0]) throw new HttpException('no message find', 404);
 
     return messages;
   }
+
+  //---------------------- Delete a message ----------------------
+  async deleteOne(id: number) {
+    const delt = await this.messageRepository.delete({ id: id });
+    if (delt.affected === 0) throw new HttpException('Message not found', 404);
+
+    return { message: 'The message was successfully deleted' };
+  }
+
+
 }

@@ -70,6 +70,6 @@ export class UsersController {
   async Update(@Req() request: Request, @Body() userData: UserUpdateDTO) {
 
     return await this.usersService.update(userData, request.user['email']);
-    
+
   }
 }

@@ -66,7 +66,6 @@ export class UsersService {
     // --------------------- user Search in the db --------------------------
 
     const user = await this.findUserByEmail(email);
-    console.log(user);
 
     if (!user) throw new HttpException('user not find', 404);
 
@@ -80,12 +79,18 @@ export class UsersService {
         user.slug = updateData.slug;
         user.displayName = updateData.displayName;
 
-        return await this.userRepository.save(user);
+        await this.userRepository.save(user);
+        return { message: 'The update was done successfully' };
+
       } catch (err) {
+
         throw new HttpException(err.message, 500);
+
       }
     } else {
-      return user;
+
+      return { message: 'ohhh noooo' };
+
     }
   }
 }
