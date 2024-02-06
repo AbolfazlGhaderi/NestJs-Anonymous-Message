@@ -1,4 +1,8 @@
-import { HttpException, HttpVersionNotSupportedException, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpVersionNotSupportedException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create.user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
@@ -27,17 +31,15 @@ export class UsersService {
   //--------------------- Check slug ----------------------------
 
   async checkSlug(slug: string) {
-
     const user = await this.userRepository.findOne({
       where: {
         slug: slug,
       },
     });
 
-    if(user) throw new HttpException("Not available",400)
+    if (user) throw new HttpException('Not available', 400);
 
-    return {message : 'available'}
-
+    return { message: 'available' };
   }
 
   //--------------------- Create  -------------------------------
@@ -60,12 +62,11 @@ export class UsersService {
 
   //--------------------- Update  -------------------------------
 
-  async update(updateData: UserUpdateDTO, id: number) {
+  async update(updateData: UserUpdateDTO, email: string) {
     // --------------------- user Search in the db --------------------------
 
-    const user = await this.userRepository.findOne({
-      where: { id: id.toString() },
-    });
+    const user = await this.findUserByEmail(email);
+    console.log(user);
 
     if (!user) throw new HttpException('user not find', 404);
 

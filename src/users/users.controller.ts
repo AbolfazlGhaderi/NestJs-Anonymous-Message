@@ -57,19 +57,19 @@ export class UsersController {
   //   return this.usersService.create(createUserDto);
   // }
 
-  @Put('/:id')
-  @UseGuards(JwtAuthGuard)
-  @HttpCode(HttpStatus.OK)
-  async Update( @Param('id', ParseIntPipe) id: number , @Body() userData: UserUpdateDTO,) {
-
-    return await this.usersService.update(userData,id);
-    
-  }
-
   @Post('/check/slug')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  async checkSlug(@Body('slug') slug : string){
-    return await this.usersService.checkSlug(slug)
+  async checkSlug(@Body('slug') slug: string) {
+    return await this.usersService.checkSlug(slug);
+  }
+
+  @Put('')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  async Update(@Req() request: Request, @Body() userData: UserUpdateDTO) {
+
+    return await this.usersService.update(userData, request.user['email']);
+    
   }
 }
