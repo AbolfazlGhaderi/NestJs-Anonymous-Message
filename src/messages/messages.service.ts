@@ -19,7 +19,7 @@ export class MessagesService {
 
     const user = await this.usersService.findUserByEmail(userEmail);
 
-    if (!user) throw new HttpException('User not Find', 404);
+    if (!user) throw new HttpException('User not found', 404);
 
     // ------------------ get messages in the DB --------------------------
 
@@ -33,7 +33,7 @@ export class MessagesService {
   }
 
   //---------------------- Delete a message ----------------------
-  
+
   async deleteOne(id: number) {
     const deleteR = await this.messageRepository.delete({ id: id });
     if (deleteR.affected === 0)
@@ -70,19 +70,18 @@ export class MessagesService {
   //----------------------- Create Message -----------------------------
 
   async createMessage(data: CreateMessageDTO) {
-
     const User = await this.usersService.findUserBySlug(data.slug);
-    if(!User?.id) return User
+    if (!User?.id) return User;
 
     const result = await this.messageRepository.save({
       text: data.text,
       user: { id: User.id },
     });
 
-    if(!result) throw new HttpException('internal server error',500)
+    if (!result) throw new HttpException('internal server error', 500);
 
     return {
-      message:"Message saved successfully"
-    }
+      message: 'Message saved successfully',
+    };
   }
 }

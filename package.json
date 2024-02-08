@@ -1,10 +1,10 @@
 {
-  "name": "nest-js-anonymous-message",
+  "name": "nestjs-anonymous-message",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "A Project to send and receive messages anonymously , built using NestJS",
+  "author": "Abolfazl Ghaderi",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -28,6 +28,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.3.0",
     "@nestjs/typeorm": "^10.0.1",
     "@types/passport-jwt": "^4.0.1",
     "class-transformer": "^0.5.1",
