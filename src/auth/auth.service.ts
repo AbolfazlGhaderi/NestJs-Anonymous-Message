@@ -7,6 +7,7 @@ import * as emailjs from '@emailjs/nodejs';
 import { OtpCodeEntity } from './entitys/otpcode.entity';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+import { randomInt } from 'crypto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -15,7 +16,7 @@ export class AuthService {
     @InjectRepository(OtpCodeEntity)
     private readonly otpCodeRepository: Repository<OtpCodeEntity>,
   ) {}
-
+  
   async login(loginData: LoginDTO) {
     if (!loginData.code) {
       //-------------- Generete  otpCode ----------------------
@@ -27,9 +28,9 @@ export class AuthService {
         },
       });
 
-      const otpCode = (
-        Math.floor(Math.random() * (99999 - 10000)) + 10000
-      ).toString();
+
+
+      const otpCode =  randomInt(10000,99999).toString();
 
       //-------------- templateParams to send ------------------
 
